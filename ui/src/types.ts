@@ -1,21 +1,15 @@
 export interface OrderItem {
-  id: string;
-  name: string;
-  quantity: number;
+  id: any;
+  name: any;
+  quantity: any;
   price: any;
 }
 
 export interface Order {
-  id: string;
-  customerName: string;
-  orderDate: string;
+  id: any;
+  customerName: any;
+  orderDate: any;
   items: OrderItem[];
-  total: number;
-}
-
-export interface OrderFormData {
-  customerName: string;
-  orderDate: string;
-  items: Omit<OrderItem, 'id'>[];
-  total: number;
+  total: any;
+  creditCardNumber: any;
 }

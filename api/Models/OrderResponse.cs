@@ -9,6 +9,7 @@ public class OrderResponse
         OrderDate = order.order_date;
         Items = order.items;
         Total = order.total;
+        CreditCardNumber = order.credit_card_number;
     }
 
     public Guid Id { get; private set; }
@@ -16,4 +17,5 @@ public class OrderResponse
     public DateTime OrderDate { get; private set; }
     public IEnumerable<OrderItem> Items { get; private set; }
     public double Total { get; private set; }
+    public string CreditCardNumber { get; private set; }
 }

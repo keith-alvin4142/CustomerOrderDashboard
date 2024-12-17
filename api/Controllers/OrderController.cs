@@ -13,27 +13,34 @@ public class OrdersController : ControllerBase
     [HttpPut]
     public ActionResult<IEnumerable<OrderResponse>> GetOrders()
     {
-        return Ok(_orderService.GetOrders().Select(order => new OrderResponse(order)));
+        return Ok(GetOrderResponses());
     }
 
     [HttpPost]
-    public ActionResult<OrderResponse> CreateOrder([FromBody] CreateOrderRequest request)
+    public ActionResult<IEnumerable<OrderResponse>> CreateOrder([FromBody] CreateOrderRequest request)
     {
         try
         {
-            var order = _orderService.CreateOrder(request);
-            return Ok(new OrderResponse(order));
+            _orderService.CreateOrder(request);
+            return Ok(GetOrderResponses());
         }
         catch
         {
-            return Ok(new OrderResponse(new Order
+            return Ok(new List<OrderResponse>
             {
-                id = Guid.NewGuid(),
-                customer_name = "Error Customer",
-                order_date = DateTime.Now,
-                items = [],
-                total = 0
-            }));
+                new(new Order
+                {
+                    id = Guid.NewGuid(),
+                    customer_name = "Error",
+                    order_date = DateTime.Now,
+                    items = [],
+                    total = 0,
+                    credit_card_number = "Error"
+                })
+            });
         }
     }
+
+    private IEnumerable<OrderResponse> GetOrderResponses() =>
+        _orderService.GetOrders().Select(order => new OrderResponse(order));
 }

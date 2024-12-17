@@ -15,7 +15,7 @@ export const App = () => {
   return (
     <div>
       <h1>Order Dashboard</h1>
-      <OrderForm orders={orders} setOrders={setOrders} />
+      <OrderForm setOrders={setOrders} />
       <OrderList orders={orders} setOrders={setOrders} />
     </div>
   );

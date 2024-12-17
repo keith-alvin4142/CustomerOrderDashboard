@@ -5,5 +5,5 @@ namespace api.Services;
 public interface IOrderService
 {
     IEnumerable<Order> GetOrders();
-    Order CreateOrder(CreateOrderRequest request);
+    void CreateOrder(CreateOrderRequest request);
 }

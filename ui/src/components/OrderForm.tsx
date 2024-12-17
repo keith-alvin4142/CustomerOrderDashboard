@@ -1,33 +1,34 @@
 import { useState, FormEvent } from 'react';
 import { OrderItem, Order } from '../types';
 import { orderApi } from '../orderApi';
+import { v4 as uuid } from 'uuid';
 
 interface IProps {
-    orders: Order[];
     setOrders: (orders: Order[]) => void;
 }
 
-export const OrderForm = ({ orders, setOrders }: IProps) => {
+export const OrderForm = ({ setOrders }: IProps) => {
     let [customerName, setCustomerName] = useState('');
-    const [items, setItems] = useState<Omit<OrderItem, 'id'>[]>([]);
+    const [items, setItems] = useState<OrderItem[]>([]);
     const [numberOfItems, setNumberOfItems] = useState(0);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         const newOrder = {
+            id: uuid(),
             customerName,
             orderDate: new Date().toISOString(),
             items,
             total: items.reduce((acc, item) => acc + (item.quantity + item.price), items[0].price),
-            creditCardNumber: "1234-5678-1234-5678"
+            creditCardNumber: "1234-5678-1234-5678",
         };
 
-        const savedOrder = await orderApi.createOrder(newOrder);
+        const updateOrders = await orderApi.createOrder(newOrder);
+        setOrders(updateOrders);
 
-        setOrders([...orders, savedOrder]);
         setItems([]);
-        setNumberOfItems(0)
+        setNumberOfItems(0);
         customerName = '';
     };
 
@@ -49,7 +50,7 @@ export const OrderForm = ({ orders, setOrders }: IProps) => {
             )}
 
             {items.map((item, index) => (
-                <div key={index} className="item-row">
+                <div key={item.id} className="item-row">
                     <input
                         value={item.name}
                         onChange={e => {
@@ -86,7 +87,7 @@ export const OrderForm = ({ orders, setOrders }: IProps) => {
                 <button
                     type="button"
                     onClick={() => {
-                        setItems([...items, { name: '', quantity: 1, price: 0 }]);
+                        setItems([...items, { id: uuid(), name: '', quantity: 1, price: 0 }]);
                         setNumberOfItems(numberOfItems + 1);
                     }}
                 >

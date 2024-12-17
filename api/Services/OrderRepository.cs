@@ -5,7 +5,7 @@ namespace api.Services;
 // Ignore the mock data, pretend this is a real database
 public class OrderRepository : IOrderRepository
 {
-    private readonly List<Order> _orders =
+    private static readonly List<Order> _orders =
     [
         new Order
         {
@@ -29,9 +29,9 @@ public class OrderRepository : IOrderRepository
                     Price = 20
                 }
             ],
-            total = 40
+            total = 40,
+            credit_card_number = "1234-5678-9012-3456",
         },
-
         new Order
         {
             id = Guid.NewGuid(),
@@ -47,7 +47,8 @@ public class OrderRepository : IOrderRepository
                     Price = 15
                 }
             ],
-            total = 45
+            total = 45,
+            credit_card_number = "1234-5678-9012-3456",
         }
     ];
 
@@ -56,9 +57,8 @@ public class OrderRepository : IOrderRepository
         return _orders;
     }
 
-    public Order Add(Order order)
+    public void Add(Order order)
     {
         _orders.Add(order);
-        return order;
     }
 }

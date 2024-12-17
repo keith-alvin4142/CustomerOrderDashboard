@@ -2,6 +2,7 @@
 
 public class CreateOrderRequest
 {
+    public required Guid Id { get; set; }
     public required string CustomerName { get; set; }
     public required DateTime OrderDate { get; set; }
     public required List<CreateOrderItemRequest> Items { get; set; }
@@ -11,6 +12,7 @@ public class CreateOrderRequest
 
 public class CreateOrderItemRequest
 {
+    public required Guid Id { get; set; }
     public required string Name { get; set; }
     public required int Quantity { get; set; }
     public required double Price { get; set; }

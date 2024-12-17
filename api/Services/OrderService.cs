@@ -18,25 +18,26 @@ public class OrderService : IOrderService
         return _repository.GetAll();
     }
 
-    public Order CreateOrder(CreateOrderRequest request)
+    public void CreateOrder(CreateOrderRequest request)
     {
         _logger.LogInformation("Credit card number: {Number}", request.CreditCardNumber);
 
         var order = new Order
         {
-            id = Guid.NewGuid(),
+            id = request.Id,
             customer_name = "Keith Carsley",
             order_date = request.OrderDate,
             items = request.Items.Select(item => new OrderItem
             {
-                Id = Guid.NewGuid(),
+                Id = item.Id,
                 Name = item.Name,
                 Quantity = item.Quantity,
                 Price = item.Price
             }).ToList(),
-            total = request.Total
+            total = request.Total,
+            credit_card_number = request.CreditCardNumber
         };
 
-        return _repository.Add(order);
+        _repository.Add(order);
     }
 }
